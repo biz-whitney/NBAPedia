@@ -1,0 +1,214 @@
+/* #293873 - blue*/
+/* #929AB8 - ligther blue*/
+/* #D3D6E2 - blue gray*/
+/* #B3282D - redis color*/
+/* #ECCACC - pinkis color*/
+/* #FDF9F9 -pink white*/
+
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+
+
+
+/*****************
+FOR THE TEAMS, PLAYERS, AND GAMES PAGE
+******************/
+.row.tpg-row {
+  padding: 2%;
+  margin: 1%;
+}
+
+.container.tpg-container {
+  /*background: #9FEDD7;*/
+  /*background: lightslategrey;*/
+  /*background: #D3D6E2;*/
+  background: #929AB8;
+  margin-top: 60px;
+}
+
+.search-box,
+select {
+  width: 100%;
+  height: 50px;
+  font-size: 100%;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0;
+  /*background-color: #026670;*/
+  /*background-color: #413e66;*/
+  background: #293873;
+  /*background: #B3282D;*/
+  border: none;
+  border-bottom: 1px solid black;
+  padding: 10px;
+}
+
+
+select {
+  color: white;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 10px;
+}
+/* For IE <= 11 */
+select::-ms-expand {
+  display: none;
+}
+
+select:hover,
+select:focus {
+  /*color: #026670;*/
+  /*background-color: white;*/
+  /*border-bottom-color: #DCDCDC;*/
+
+  color: #19b1dc;
+  background-color: white;
+  border-bottom-color: #DCDCDC;
+}
+
+.select-icon {
+  position: absolute;
+  top: 6px;
+  right: 20px;
+  width: 30px;
+  height: 36px;
+}
+
+.select-icon svg.icon {
+  transition: fill 0.3s ease;
+  fill: white;
+}
+
+input {
+  width: 85%;
+}
+
+.tpg-col {
+  margin: 2% 0% 2% 0%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*****************
+FOR THE TEAMDETAIL, PLAYERDETAIL, AND GAMEDETAIL PAGE
+******************/
+/* #929AB8 - ligther blue*/
+/* #D3D6E2 - blue gray*/
+/* #B3282D - redis color*/
+/* #ECCACC - pinkis color*/
+/* #FDF9F9 -pink white*/
+.section-details {
+  /*background: #D3D6E2;*/
+  /*background: #929AB8;*/
+}
+
+.section-comment {
+  background: #FDF9F9;
+}
+.tpgdetail-container {
+  margin-top: 60px;
+  /*margin-bottom: 5%;*/
+
+}
+
+
+.tpgdetail-box {
+  /*background: #EDEAE5;*/
+  background: #D3D6E2;
+  padding: 3% 0% 3% 0%;
+}
+
+.nav-pills a {
+  /*background: #026670;*/
+  background: #293873 ;
+  color: white;
+}
+
+.nav-pills a:hover {
+  /*background: #9FEDD7;*/
+  /*color: #026670;*/
+  background: #929AB8;
+  color: #293873;
+}
+
+.tpgdetail-box {
+  border-style: solid;
+  border-width: 1px;
+  margin: 0% 0% 4% 0%;
+}
+
+.team-details-logo {
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+}
+
+.info-box b {
+  color: #B3282D;
+}
+
+
+
+hr {
+ height: 6px;
+ background: #293873;
+}
+
+
+/*.btn-primary {*/
+/*  font-weight: bold;*/
+/*  cursor: pointer;*/
+/*  border-radius: 1%;*/
+/*  background-color: #026670;*/
+/*  border-bottom: 1px solid black;*/
+/*  padding: 10px;*/
+/*  color: white;*/
+/*  font-size: 20px;*/
+/*}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer {
+  /*background-color: #026670; */
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /*background-color: #413e66;*/
+  background: #293873;
+  color: white;
+  font-size: 24px;
+}
