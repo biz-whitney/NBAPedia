@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>NBAPedia - We Have Everything NBA</title>
+  <meta content="" name="NBA players, teams, games history and stats">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../static/img/favicon.png"  th:href="@{/img/favicon.png}" rel="icon">
+  <link href="../static/img/apple-touch-icon.png"  th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+        rel="stylesheet">
+</head>
+<body>
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top header-transparent">
+  <div class="container d-flex align-items-center">
+    <h1 class="logo mr-auto"><a href="/"><img src="../static/img/logo1.png"
+                                              th:src="@{/img/logo1.png}" alt=""
+                                              id="logo-img"/>NBAPedia</a></h1>
+
+    <nav class="main-nav d-none d-lg-block">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li class="active"><a href="/teams">Teams</a></li>
+        <li><a href="/players">Players</a></li>
+        <li><a href="/games">Schedule</a></li>
+        <li sec:authorize="isAnonymous()"><a href="/login" class="user-button user-button-border">Log In</a></li>
+        <li sec:authorize="isAnonymous()"><a href="/signup" class="user-button user-button-border">Sign Up</a></li>
+        <li class="drop-down" sec:authorize="isAuthenticated()"><a href="">Hi! <span sec:authentication="principal.username"> User</span> </a>
+          <ul>
+            <li><a th:href="@{/accountSettings}">Account Settings</a></li>
+            <li><a th:href="@{/logout}">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav><!-- .main-nav-->
+
+  </div>
+</header><!-- End Header -->
+
+<div class="container tpgdetail-container">
+  <div class="row">
+    <div class="col-lg center-block text-center">
+      <h1 style="color:black; font-size: 4em;"> <span th:text="${team.name}"/></h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 center-block text-center">
+      <div class="tpgdetail-box">
+        <div class="row center-block text-center headshot-box">
+          <img class="team-details-logo"
+               th:src="@{/img/team_logos/{image}(image=${imgPath})}"
+               th:alt="${team.name}">
+        </div>
+        <div class="info-box" >
+          <row>
+            <h4> <b>Full Name:</b> <span th:text="${team.getName()}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Short Name:</b>
+              <span th:text="${team.getShortName()}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Years:</b> <span th:text="${team.getYears()}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Total Games:</b> <span th:text="${team.getTotalGames()}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Total Wins:</b> <span th:text="${team.getTotalWins()}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Total Losses:</b> <span th:text="${team.getTotalLosses()}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Champions:</b> <span th:text="${team.getChampions()}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Team Status:</b> <span th:text="${team.isActive()}"/></h4>
+          </row>
+          <row>
+            <h4> <b>City:</b> <span th:text="${team.getCity()}"/></h4>
+          </row>
+          <row>
+            <h4> <b>State:</b> <span th:text="${team.getState()}"/></h4>
+          </row>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg tab-col">
+      <ul class="nav nav-pills">
+        <li class="active"><a data-toggle="pill" href="#home">Bio</a></li>
+        <li><a data-toggle="pill" href="#menu1">Season Stats</a></li>
+        <li><a data-toggle="pill" href="#menu2">Current Players</a></li>
+        <li><a data-toggle="pill" href="#menu3">Media</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+          <h3>Team Bio</h3>
+          <p th:text="${team.getAbout()}"></p>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+          <h3>Season Stats</h3>
+          <div class="table-responsive">
+            <table id="productSizes" class="table table-striped table-bordered tablesorter">
+              <thead>
+              <tr>
+                <th>Season</th>
+                <th>FG</th>
+                <th>FGA</th>
+                <th>FG3</th>
+                <th>FG3A</th>
+                <th>FT</th>
+                <th>FTA</th>
+                <th>TRB</th>
+                <th>AST</th>
+                <th>STL</th>
+                <th>TOV</th>
+                <th>PTS</th>
+                <th>BLK</th>
+              </tr>
+              </thead>
+              <tbody id="myTable">
+                <tr th:each="teamSeason : ${teamSeasonStats}">
+                  <td th:text="${teamSeason.season}"></td>
+                  <td th:text="${teamSeason.FG}"></td>
+                  <td th:text="${teamSeason.FGA}"></td>
+                  <td th:text="${teamSeason.FG3}"></td>
+                  <td th:text="${teamSeason.FG3A}"></td>
+                  <td th:text="${teamSeason.FT}"></td>
+                  <td th:text="${teamSeason.FTA}"></td>
+                  <td th:text="${teamSeason.TRB}"></td>
+                  <td th:text="${teamSeason.AST}"></td>
+                  <td th:text="${teamSeason.STL}"></td>
+                  <td th:text="${teamSeason.TOV}"></td>
+                  <td th:text="${teamSeason.PTS}"></td>
+                  <td th:text="${teamSeason.BLK}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <div id="menu2" class="tab-pane fade">
+          <h3>Current Players</h3>
+          <div class="table-responsive">
+            <table id="productSize" class="table table-striped table-bordered tablesorter">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Height</th>
+                <th>Weight</th>
+              </tr>
+              </thead>
+              <tbody id="Table">
+                <tr th:each="playerSeason : ${playerSeasonsList}">
+                  <td><a th:href="@{/playerdetails/{id}(id=${playerSeason.player.id})}"
+                         th:text="${playerSeason.player.name}"></a> </td>
+                  <td th:text="${playerSeason.player.position}"></td>
+                  <td th:text="${playerSeason.player.height}"></td>
+                  <td th:text="${playerSeason.player.weight}"></td>
+                </tr>
+                </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <div id="menu3" class="tab-pane fade">
+          <h3>Media</h3>
+          <p> Player media like twitter and instagram posts</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<hr>
+
+<div class="row settings-section">
+  <div class="col-2">
+  </div>
+  <div class="col-8">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Comment Section</h1>
+
+        <div class="card" th:each="teamComment : ${commentsList}">
+          <div class="card-body">
+            <h4 class="card-subtitle mb-2 text-muted"  th:text="${teamComment.user.username}"></h4>
+            <h6 class="card-subtitle mb-2 text-muted" th:text="${teamComment.created}"></h6>
+            <p class="card-text" th:text="${teamComment.content}"></p>
+
+          </div>
+        </div>
+
+
+        <form sec:authorize="isAnonymous()" class="form-comment" id="commentFormPlaceholder" method="post">
+          <div class="input-group">
+                        <textarea class="form-control custom-control"
+                                  style="resize:none; height: 100px; margin-bottom: 10px"
+                                  id="commentPlaceholder" type="text" name="comment"
+                                  required=""  > </textarea>
+            <button style="margin-bottom: 10px" class="btn btn-primary" type="submit" id="commentSubmitBtnPlaceholder">Submit
+            </button>
+          </div>
+          <div id="commentmsg">Sign up or login to add comments</div>
+        </form>
+
+
+        <form sec:authorize="isAuthenticated()" class="form-comment" th:action="@{/addTeamComment/{id}(id=${team.id})}" th:object="${commentDto}" id="commentForm" method="post">
+          <div class="input-group">
+                        <textarea class="form-control custom-control"
+                                  style="resize:none; height: 100px; margin-bottom: 10px"
+                                  id="comment" type="text" name="comment"
+                                  required=""  th:field="*{content}"> </textarea>
+            <button style="margin-bottom: 10px" class="btn btn-primary" type="submit" id="commentSubmitBtn">Submit
+            </button>
+          </div>
+        </form>
+<!--        <div id="commentmsg">Sign up or login to add comments</div>-->
+      </div>
+    </div>
+  </div>
+  <div class="col-2">
+  </div>
+</div>
+
+
+</body>
+
+  <!-- Template Main JS File -->
+  <script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+
+
+  <!-- load jQuery and tablesorter scripts -->
+  <script type="text/javascript" src="../static/js/jquery.tablesorter.js" th:src="@{/js/jquery.tablesorter.js}"></script>
+
+
+<script>
+  document.getElementById("commentSubmitBtnPlaceholder").disabled = true
+</script>
+</html>

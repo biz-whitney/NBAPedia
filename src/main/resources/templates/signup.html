@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Signup - Create An Account</title>
+  <meta content="" name="NBA players, teams, games history and stats">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../static/img/favicon.png"  th:href="@{/img/favicon.png}" rel="icon">
+  <link href="../static/img/apple-touch-icon.png"  th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+        rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top header-transparent">
+  <div class="container d-flex align-items-center">
+    <h1 class="logo mr-auto"><a href="/"><img src="../static/img/logo1.png"
+                                              th:src="@{/img/logo1.png}" alt=""
+                                              id="logo-img"/>NBAPedia</a></h1>
+
+    <nav class="main-nav d-none d-lg-block">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/teams">Teams</a></li>
+        <li><a href="/players">Players</a></li>
+        <li><a href="/games">Schedule</a></li>
+        <li><a href="/login" class="user-button user-button-border">Log In</a></li>
+        <li class="active"><a href="/signup" class="user-button user-button-border">Sign Up</a></li>
+      </ul>
+    </nav><!-- .main-nav-->
+
+  </div>
+</header><!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section id="sign-up-box" class="clearfix">
+  <div class="container d-flex h-100" id="sign-up-form">
+    <div class="row justify-content-center align-self-center" data-aos="fade-up">
+      <div class="col-md-12 intro-info order-md-first order-last" data-aos="zoom-in"
+           data-aos-delay="100">
+        <form class="form-signup" th:action="@{/signup}" id="sign-up" th:object="${user}"
+              method="post">
+          <h1 id="sign-in">Sign Up</h1>
+          <p style="color: red" th:text="${error}" ></p>
+          <label for="username" class="sr-only">Username</label>
+          <input type="text" id="username" name="username" class="form-control"
+                 placeholder="Username" required="" autofocus="" th:field="*{username}">
+          <label for="password" class="sr-only">Password</label>
+          <input type="password" id="password" name="password" class="form-control"
+                 placeholder="Password" required="" th:field="*{password}">
+          <label class="sr-only" for="favTeam">Your favorite team</label>
+          <select class="form-control" name="favTeam" id="favTeam" th:field="*{favoriteTeamId}">
+            <option selected value="-1">Your favorite team</option>
+            <option th:each="team : ${teams}"
+                    th:value="${team.id}" th:text="${team.shortName}">name</option>
+          </select>
+          <button class="btn btn-lg btn-primary btn-block submit" type="submit">Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section><!-- End Hero -->
+
+<!-- Template Main JS File -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+</body>
+</html>

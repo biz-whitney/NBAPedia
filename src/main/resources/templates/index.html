@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>NBAPedia - We Have Everything NBA</title>
+  <meta content="" name="NBA players, teams, games history and stats">
+  <meta content="" name="keywords">
+  <!-- Favicons -->
+  <link href="../static/img/favicon.png"  th:href="@{/img/favicon.png}" rel="icon">
+  <link href="../static/img/apple-touch-icon.png"  th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+        rel="stylesheet">
+
+</head>
+
+<body>
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top header-transparent">
+  <div class="container d-flex align-items-center">
+    <h1 class="logo mr-auto"><a href="/"><img src="../static/img/logo1.png"
+                                              th:src="@{/img/logo1.png}" alt=""
+                                              id="logo-img"/>NBAPedia</a></h1>
+
+    <nav class="main-nav d-none d-lg-block">
+      <ul>
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/teams">Teams</a></li>
+        <li><a href="/players">Players</a></li>
+        <li><a href="/games">Schedule</a></li>
+        <li sec:authorize="isAnonymous()"><a href="/login" class="user-button user-button-border">Log In</a></li>
+        <li sec:authorize="isAnonymous()"><a href="/signup" class="user-button user-button-border">Sign Up</a></li>
+        <li class="drop-down" sec:authorize="isAuthenticated()"><a href="">Hi! <span sec:authentication="principal.username"> User</span> </a>
+          <ul>
+            <li><a th:href="@{/accountSettings}">Account Settings</a></li>
+            <li><a th:href="@{/logout}">Log Out</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </nav><!-- .main-nav-->
+
+  </div>
+</header><!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="clearfix">
+  <div class="container d-flex h-100">
+    <div class="row justify-content-center align-self-center" data-aos="fade-up">
+      <div class="col-md-8 intro-info order-md-first order-last" data-aos="zoom-in"
+           data-aos-delay="100">
+        <h2>All You Want To Know<br>About NBA <p>is Here!</p></h2>
+        <div>
+          <a href="/teams" class="btn-get-started scrollto home-buttons">See Teams</a>
+          <a href="/players" class="btn-get-started scrollto home-buttons">See Players</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section><!-- End Hero -->
+
+<!-- Template Main JS File -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>NBAPedia - We Have Everything NBA</title>
+  <meta content="" name="NBA players, teams, games history and stats">
+  <meta content="" name="keywords">
+  <!-- Favicons -->
+  <link href="../static/img/favicon.png"  th:href="@{/img/favicon.png}" rel="icon">
+  <link href="../static/img/apple-touch-icon.png"  th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+        rel="stylesheet">
+</head>
+<body>
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top header-transparent">
+  <div class="container d-flex align-items-center">
+    <h1 class="logo mr-auto"><a href="/"><img src="../static/img/logo1.png"
+                                              th:src="@{/img/logo1.png}" alt=""
+                                              id="logo-img"/>NBAPedia</a></h1>
+
+    <nav class="main-nav d-none d-lg-block">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/teams">Teams</a></li>
+        <li><a href="/players">Players</a></li>
+        <li class="active"><a href="/games">Schedule</a></li>
+        <li sec:authorize="isAnonymous()"><a href="/login" class="user-button user-button-border">Log In</a></li>
+        <li sec:authorize="isAnonymous()"><a href="/signup" class="user-button user-button-border">Sign Up</a></li>
+        <li class="drop-down" sec:authorize="isAuthenticated()"><a href="">Hi! <span sec:authentication="principal.username"> User</span> </a>
+          <ul>
+            <li><a th:href="@{/accountSettings}">Account Settings</a></li>
+            <li><a th:href="@{/logout}">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav><!-- .main-nav-->
+
+  </div>
+</header><!-- End Header -->
+
+<div class="container tpgdetail-container">
+  <div class="row">
+    <div class="col-lg center-block text-center">
+      <h1 style="color:black; font-size: 4em;"> <span th:text="${awayTeam.name}"/>
+        vs <span
+            th:text="${homeTeam.name}"/></h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 center-block text-center">
+      <div class="tpgdetail-box">
+        <div class="row center-block text-center headshot-box">
+          <img class="team-details-logo"
+               th:src="@{/img/team_logos/{image}(image=${awayTeamImagePath})}"
+               th:alt="${awayTeam.name}">
+          <img class="team-details-logo"
+               th:src="@{/img/team_logos/{image}(image=${homeTeamImagePath})}"
+               th:alt="${homeTeam.name}">
+        </div>
+        <div class="info-box" >
+          <row>
+            <h4> <b>Away Team:</b> <span th:text="${awayTeam.name}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Home Team:</b> <span th:text="${homeTeam.name}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Away Team Score:</b> <span th:text="${game.awayScore}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Home Team Score:</b> <span th:text="${game.homeScore}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Season</b> <span th:text="${game.season}"/></h4>
+          </row>
+          <row>
+            <h4> <b>Playoffs</b> <span th:text="${game.playoff}"/></h4>
+          </row>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg tab-col">
+      <ul class="nav nav-pills">
+        <li class="active"><a data-toggle="pill" href="#menu1">Game Stats</a></li>
+        <li><a data-toggle="pill" href="#menu2">Media</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="menu1" class="tab-pane fade in active">
+          <h3><span th:text="${awayTeam.name}"/> Roster</h3>
+          <div class="table-responsive">
+            <table id="awayTeam_table" class="table table-striped table-bordered tablesorter">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>FG</th>
+                <th>FG3</th>
+                <th>FT</th>
+                <th>TRB</th>
+                <th>AST</th>
+                <th>STL</th>
+                <th>BLK</th>
+                <th>PTS</th>
+              </tr>
+              </thead>
+              <tbody id="awayTeam_tbody">
+              <tr th:each="player : ${awayRoster}">
+                <td><a th:href="@{/playerdetails/{id}(id=${player.getId()})}"
+                       th:text="${player.getName()}"></a> </td>
+                <td th:text="${player.getPosition()}"></td>
+                <td th:text="${player.getFG()}"></td>
+                <td th:text="${player.getFG3()}"></td>
+                <td th:text="${player.getFT()}"></td>
+                <td th:text="${player.getTRB()}"></td>
+                <td th:text="${player.getAST()}"></td>
+                <td th:text="${player.getSTL()}"></td>
+                <td th:text="${player.getBLK()}"></td>
+                <td th:text="${player.getPTS()}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <br>
+          <h3><span th:text="${homeTeam.name}"/> Roster</h3>
+          <div class="table-responsive">
+            <table id="homeTeam_table" class="table table-striped table-bordered tablesorter">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>FG</th>
+                <th>FG3</th>
+                <th>FT</th>
+                <th>TRB</th>
+                <th>AST</th>
+                <th>STL</th>
+                <th>BLK</th>
+                <th>PTS</th>
+              </tr>
+              </thead>
+              <tbody id="homeTeam_tbody">
+              <tr th:each="player : ${homeRoster}">
+                <td><a th:href="@{/playerdetails/{id}(id=${player.getId()})}"
+                       th:text="${player.getName()}"></a> </td>
+<!--                <td th:text="${player.getName()}"></td>-->
+                <td th:text="${player.getPosition()}"></td>
+                <td th:text="${player.getFG()}"></td>
+                <td th:text="${player.getFG3()}"></td>
+                <td th:text="${player.getFT()}"></td>
+                <td th:text="${player.getTRB()}"></td>
+                <td th:text="${player.getAST()}"></td>
+                <td th:text="${player.getSTL()}"></td>
+                <td th:text="${player.getBLK()}"></td>
+                <td th:text="${player.getPTS()}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div id="menu2" class="tab-pane fade">
+          <h3>Menu 2</h3>
+          <p> games media like youtube and instagram posts</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+
+<!-- Template Main JS File -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+<!-- load jQuery and tablesorter scripts -->
+<script type="text/javascript" src="../static/js/jquery.tablesorter.js" th:src="@{/js/jquery.tablesorter.js}"></script>
+<script>
+  document.getElementById("commentSubmitBtnPlaceholder").disabled = true
+</script>
+
+</html>
+

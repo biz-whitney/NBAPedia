@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>NBAPedia - We Have Everything NBA</title>
+  <meta content="" name="NBA players, teams, games history and stats">
+  <meta content="" name="keywords">
+  <!-- Favicons -->
+  <link href="../static/img/favicon.png"  th:href="@{/img/favicon.png}" rel="icon">
+  <link href="../static/img/apple-touch-icon.png"  th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+        rel="stylesheet">
+</head>
+<body>
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top header-transparent">
+  <div class="container d-flex align-items-center">
+    <h1 class="logo mr-auto"><a href="/"><img src="../static/img/logo1.png"
+                                              th:src="@{/img/logo1.png}" alt=""
+                                              id="logo-img"/>NBAPedia</a></h1>
+
+    <nav class="main-nav d-none d-lg-block">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/teams">Teams</a></li>
+        <li><a href="/players">Players</a></li>
+        <li><a href="/games">Schedule</a></li>
+
+        <li sec:authorize="isAnonymous()"><a href="/login" class="user-button user-button-border">Log In</a></li>
+        <li sec:authorize="isAnonymous()"><a href="/signup" class="user-button user-button-border">Sign Up</a></li>
+        <li class="drop-down" sec:authorize="isAuthenticated()"><a href="">Hi! <span sec:authentication="principal.username"> User</span> </a>
+          <ul>
+            <li ><a th:href="@{/accountSettings}">Account
+              Settings</a></li>
+            <li><a th:href="@{/logout}">Log Out</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </nav><!-- .main-nav-->
+
+  </div>
+</header><!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<div class="clearfix" id="account-box">
+  <div class="container">
+    <div class="row settings-section">
+      <div class="col-2">
+      </div>
+      <div class="col-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Account Settings</h5>
+            <form action="/user/update" id="update-form" method="POST" th:action="@{/user/update}" th:object="${usersDto}">
+              <div class="input-div">
+                <label for="username">Username: </label>
+                <input id="username" class="form-control settings-form" type="text"
+                       th:placeholder="${user.username}" name="username"  readonly>
+              </div>
+              <div class="input-div">
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password"
+                       class="form-control settings-form"
+                       placeholder="Password" th:field="*{password}">
+              </div>
+              <div class="input-div">
+                <label for="favTeam">Your favorite team: </label>
+                <select class="form-control settings-form" name="favTeam"
+                        id="favTeam" th:field="*{favoriteTeamId}">
+                  <option th:value="${user.favoriteTeam.id}" th:text="${user.favoriteTeam.shortName}">
+                  <option th:each="team : ${teams}" th:value="${team.id}" th:text="${team.shortName}"></option>
+                  </div>
+                </select>
+              </div>
+              <div id="update-msg" th:text="${msg}"></div>
+              <button class="btn btn-lg btn-primary btn-block submit"
+                      id="update-button"
+                      type="submit">Update
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+
+    <!--    Player Comments-->
+    <div class="row settings-section">
+      <div class="col-2 ">
+      </div>
+      <div class="col-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Manage Your Player Comments</h5>
+            <div class="card comment-card"  th:each="playerComment : ${playerCommentsList}">
+              <div class="card-body">
+                <h5 class="card-title" th:text="${playerComment.player.name}"></h5>
+                <h6 class="card-subtitle mb-2 text-muted" th:text="${playerComment.created}"></h6>
+                <p class="card-text" th:text="${playerComment.content}"></p>
+
+                <a href="#" class="card-link" data-toggle="modal"
+                   data-target="#commentUpdateModal"
+                   data-name="playerComment"
+                   data-th-attr="data-id=${playerComment.id}, data-content=${playerComment.content}">Update</a>
+
+                <a th:href="@{/deletePlayerComment/{id}(id=${playerComment.id})}" class="card-link"
+                >Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+
+    <!--Team Comments-->
+        <div class="row settings-section">
+          <div class="col-2">
+          </div>
+          <div class="col-8">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Manage Your Team Comments</h5>
+                  <div class="card" th:each="teamComment : ${teamCommentsList}">
+                    <div class="card-body">
+                      <h5 class="card-title"  th:text="${teamComment.team.name}"></h5>
+                      <h6 class="card-subtitle mb-2 text-muted" th:text="${teamComment.created}">
+                      </h6>
+                      <p class="card-text" th:text="${teamComment.content}"></p>
+
+                      <a href="#" class="card-link" data-toggle="modal"
+                         data-target="#commentUpdateModal"
+                         data-name="teamComment"
+                         data-th-attr="data-id=${teamComment.id}, data-content=${teamComment.content}">Update</a>
+
+                      <a th:href="@{/deleteTeamComment/{id}(id=${teamComment.id})}" class="card-link"
+                      >Delete</a>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+          </div>
+        </div>
+    <!-- Modal -->
+    <div class="modal fade" id="commentUpdateModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Comment</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form method="post" id="commentUpdateForm" th:action="@{/updateTeamComment/1}"
+                th:object="${commentDto}">
+            <div class="modal-body">
+                            <textarea name="content" class="form-control" id="commentTextArea"
+                                      rows="3" th:field="*{content}"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary" id="updateCommentBtn" value="save">Save
+                changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Template Main JS File -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+<script >
+  $('#commentUpdateModal').on('show.bs.modal', function (event) {
+    let button = $(event.relatedTarget) // Button that triggered the modal
+    let commentId = button.data('id')
+    let content = button.data('content')
+    let commentType = button.data("name")
+    if (commentType === "teamComment") {
+      $('#commentTextArea').text(content)
+      console.log(content)
+      // $('#commentUpdateForm').attr("action",  '/updateTeamComment/' + commentId)
+    }
+    if (commentType === "playerComment") {
+      $('#commentTextArea').text(content)
+      console.log(content)
+      // $('#commentUpdateForm').attr('action', '/updatePlayerComment/' + commentId)
+    }
+  })
+</script>
+</body>
+</html>
